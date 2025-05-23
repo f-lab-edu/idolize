@@ -1,17 +1,17 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { TRole } from './types';
+import { IBaseEntity, MyBaseEntity } from '../common/entity/base';
+
+export interface IUserEntity extends IBaseEntity {
+  email: string;
+  name: string;
+  password: string;
+  role?: TRole;
+}
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ type: 'varchar', length: 255, unique: true })
+export class UserEntity extends MyBaseEntity implements IUserEntity {
+  @Column({ type: 'varchar', length: 255 })
   email: string;
 
   @Column()
@@ -23,9 +23,18 @@ export class User {
   @Column({ type: 'varchar', length: 10, default: 'buyer' })
   role: TRole = 'buyer';
 
-  @CreateDateColumn()
-  createdAt: Date;
+  static from(param: IUserEntity) {
+    const newUser = new UserEntity();
+    const { createdAt, id, updatedAt, email, name, password, role } = param;
+    newUser.id = id;
+    newUser.createdAt = createdAt;
+    newUser.updatedAt = updatedAt;
 
-  @CreateDateColumn()
-  updatedAt: Date;
+    newUser.email = email;
+    newUser.name = name;
+    newUser.password = password;
+    newUser.role = role ?? 'buyer';
+
+    return newUser;
+  }
 }
