@@ -1,17 +1,17 @@
 import { PickType } from '@nestjs/swagger';
 import { UserEntity } from '../../user/user.entity';
 import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
+import { CreateUserDto } from '../../user/interface/create.interface';
 
 const passwordRegex =
   /^(?:(?=.*[A-Za-z])(?=.*\d)|(?=.*[A-Za-z])(?=.*[!@#$%^&*?_])|(?=.*\d)(?=.*[!@#$%^&*?_]))[A-Za-z\d!@#$%^&*?_]{8,20}$/;
 
 const nameRegex = /^[a-zA-Z0-9]{1,255}/;
 
-export class SignUpDto extends PickType(UserEntity, [
-  'email',
-  'name',
-  'password',
-] as const) {
+export class SignUpDto
+  extends PickType(UserEntity, ['email', 'name', 'password'] as const)
+  implements CreateUserDto
+{
   @IsEmail({}, { message: '이메일 형식이 올바르지 않습니다.' })
   email: string;
 

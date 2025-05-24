@@ -1,9 +1,10 @@
 import { Provider } from '@nestjs/common';
-import { UserEntity } from '../../user/user.entity';
+import { UserEntity } from '../../../user/user.entity';
 import { AuthServiceImpl } from './auth.serviceImpl';
+import { CreateUserDto } from '../../../user/interface/create.interface';
 
 export interface AuthService {
-  signUp: () => Promise<UserEntity>;
+  signUp: (dto: CreateUserDto) => Promise<UserEntity>;
 }
 
 export const AuthServiceToken = Symbol('AuthService');

@@ -9,7 +9,7 @@ export interface IUserEntity extends IBaseEntity {
   role?: TRole;
 }
 
-@Entity()
+@Entity({ name: 'user' })
 export class UserEntity extends MyBaseEntity implements IUserEntity {
   @Column({ type: 'varchar', length: 255 })
   email: string;
