@@ -15,7 +15,6 @@ export class UserServiceImpl {
   async create(dto: CreateUserDto) {
     const { email } = dto;
     const user = await this.userRepository.findOneBy({ email });
-    console.log('user', user);
     if (user) {
       throw new BadRequestException('유저가 이미 있습니다.');
     }
